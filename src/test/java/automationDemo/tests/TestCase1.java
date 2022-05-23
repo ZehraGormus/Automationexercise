@@ -147,12 +147,14 @@ public class TestCase1 extends TestBase {
         accountDelete.headerDeleteAccount.click();
 
 
-        extentLogger.info(" Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button");
-
+        extentLogger.info(" Verify that 'ACCOUNT DELETED!");
         String actualUrl = driver.getCurrentUrl();
         String expectedUrl = "https://www.automationexercise.com/delete_account?";
-
         Assert.assertEquals(actualUrl, expectedUrl);
+
+        extentLogger.info("clicking 'Continue' button");
+        BrowserUtils.verifyElementDisplayed(accountDelete.continueBtn);
+        accountDelete.continueBtn.click();
 
         extentLogger.pass("Passed");
 
@@ -183,16 +185,6 @@ public class TestCase1 extends TestBase {
 
         }*/
 
-
-        extentLogger.info("clicking 'Continue' button");
-        BrowserUtils.verifyElementDisplayed(accountDelete.continueBtn);
-        accountDelete.continueBtn.click();
-
-        extentLogger.pass("Passed");
-
-
-
-
     }
 
     @Test
@@ -201,7 +193,7 @@ public class TestCase1 extends TestBase {
         LoginandSignUpPage loginandSignUpPage=new LoginandSignUpPage();
         extentLogger = report.createTest("Verify that login is succesful");
         extentLogger.info("login");
-        loginandSignUpPage.login("zehr@gmail.com","12345");
+        loginandSignUpPage.login("zehra@gmail.com","12345");
         //String actual =loginandSignUpPage.logoutLinkText.getText();
 
         //Assert.assertEquals(actual,"Logout");
