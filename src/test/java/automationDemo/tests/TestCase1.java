@@ -193,7 +193,7 @@ public class TestCase1 extends TestBase {
         LoginandSignUpPage loginandSignUpPage=new LoginandSignUpPage();
         extentLogger = report.createTest("Verify that login is succesful");
         extentLogger.info("login");
-        loginandSignUpPage.login("zehra@gmail.com","12345");
+        loginandSignUpPage.login(ConfigurationReader.get("myEmail"),ConfigurationReader.get("myPassword"));
         //String actual =loginandSignUpPage.logoutLinkText.getText();
 
         //Assert.assertEquals(actual,"Logout");
