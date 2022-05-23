@@ -1,23 +1,28 @@
 package automationDemo.tests;
 
 import automationDemo.pages.AccountCreated;
+import automationDemo.pages.AccountDelete;
 import automationDemo.pages.LoginandSignUpPage;
 import automationDemo.pages.SignUpPage;
 import automationDemo.utilities.BrowserUtils;
 import automationDemo.utilities.ConfigurationReader;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 public class TestCase1 extends TestBase {
 
     @Test
-    public void testCase1() {
+    public void testCase1() throws IOException {
 
         LoginandSignUpPage login = new LoginandSignUpPage();
-        SignUpPage signUPPage = new SignUpPage();
+        SignUpPage signUpPage = new SignUpPage();
         AccountCreated accountCreated=new AccountCreated();
+        AccountDelete accountDelete=new AccountDelete();
 
 
         extentLogger = report.createTest("Verify that home page is visible successfully");
@@ -49,7 +54,7 @@ public class TestCase1 extends TestBase {
         extentLogger.info("Click on SignUP Button");
         login.signupButton.click();
 
-        String actualSignUpText = signUPPage.singUpText.getText();
+        String actualSignUpText = signUpPage.singUpText.getText();
         String expectedSignUpText = "ENTER ACCOUNT INFORMATION";
 
         extentLogger.info("Verify that 'ENTER ACCOUNT INFORMATION' is visible");
@@ -57,71 +62,71 @@ public class TestCase1 extends TestBase {
 
 
         extentLogger.info("Enter gender");
-        signUPPage.mrButton.click();
+        signUpPage.mrButton.click();
 
 //        extentLogger.info("Enter password");
 //        signUPPage.password.sendKeys(ConfigurationReader.get("password"));
 
         extentLogger.info("Enter the Day");
-        signUPPage.selectDate(signUPPage.days);
+        signUpPage.selectDate(signUpPage.days);
 
         extentLogger.info("Enter the Months");
-        signUPPage.selectDate(signUPPage.months);
+        signUpPage.selectDate(signUpPage.months);
 
         extentLogger.info("Enter the Years");
-        signUPPage.selectDate(signUPPage.years);
+        signUpPage.selectDate(signUpPage.years);
 
         extentLogger.info("Select checkbox 'Sign up for our newsletter!'");
-        signUPPage.newsletterRadioBtn.click();
+        signUpPage.newsletterRadioBtn.click();
 
         extentLogger.info("Select checkbox 'Receive special offers from our partners!'");
-        signUPPage.ourPartnersRadioBtn.click();
+        signUpPage.ourPartnersRadioBtn.click();
 
 //        BrowserUtils.scrollToElement(driver.findElement(By.id("city")));
 
-       signUPPage.fillDetails("password");
-       signUPPage.fillDetails("First Name");
-       signUPPage.fillDetails("Last Name");
+       signUpPage.fillDetails("password");
+       signUpPage.fillDetails("First Name");
+       signUpPage.fillDetails("Last Name");
         BrowserUtils.scrollToElement(driver.findElement(By.id("city")));// bizim bu elemente kadar sayfamizi kaydiriyor
 
         extentLogger.info("Click on ourPartnersRadioBtn");
-        signUPPage.ourPartnersRadioBtn.click();
+        signUpPage.ourPartnersRadioBtn.click();
 
         extentLogger.info("Enter the Password");
-        signUPPage.fillDetails("password");
+        signUpPage.fillDetails("password");
 
         extentLogger.info("Enter the First Name");
-        signUPPage.fillDetails("First Name");
+        signUpPage.fillDetails("First Name");
 
         extentLogger.info("Enter the Last name");
-        signUPPage.fillDetails("Last name");
+        signUpPage.fillDetails("Last name");
 
         extentLogger.info("Enter the Company");
-        signUPPage.fillDetails("Company");
+        signUpPage.fillDetails("Company");
 
         extentLogger.info("Enter the Address");
-        signUPPage.fillDetails("Address");
+        signUpPage.fillDetails("Address");
 
         extentLogger.info("Enter the Address 2");
-        signUPPage.fillDetails("Address 2");
+        signUpPage.fillDetails("Address 2");
 
         extentLogger.info("Enter the State");
-        signUPPage.fillDetails("State");
+        signUpPage.fillDetails("State");
 
         extentLogger.info("Enter the City");
-        signUPPage.fillDetails("City");
+        signUpPage.fillDetails("City");
 
         extentLogger.info("Enter the Zipcode");
-        signUPPage.fillDetails("Zipcode");
+        signUpPage.fillDetails("Zipcode");
 
         extentLogger.info("Enter the Mobile Number");
-        signUPPage.fillDetails("Mobile Number");
+        signUpPage.fillDetails("Mobile Number");
 
         extentLogger.info("Select country");
-        new Select(signUPPage.country).selectByVisibleText("United States");
+        new Select(signUpPage.country).selectByVisibleText("United States");
 
         extentLogger.info("Click on Create Account");
-        signUPPage.createAccountBtn.click();
+        signUpPage.createAccountBtn.click();
 
         String actualAccountCreatedText = accountCreated.accountCreated.getText();
         String expectedAccountCreatedText = "ACCOUNT CREATED!";
@@ -132,19 +137,76 @@ public class TestCase1 extends TestBase {
         extentLogger.info("Click on continueBtn");
         accountCreated.continueBtn.click();
 
+        String actualLoggedInAsName = login.loggedInAsUsername.getText();
+        String expectedLoggedInAsName = "Logged in as " + ConfigurationReader.get("name");
+
+        extentLogger.info(" Verify that 'Logged in as username' is visible");
+        Assert.assertEquals(actualLoggedInAsName, expectedLoggedInAsName);
+
+        extentLogger.info("Click 'Delete Account' button");
+        accountDelete.headerDeleteAccount.click();
+
+
+        extentLogger.info(" Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button");
+
+        String actualUrl = driver.getCurrentUrl();
+        String expectedUrl = "https://www.automationexercise.com/delete_account?";
+
+        Assert.assertEquals(actualUrl, expectedUrl);
+
+        extentLogger.pass("Passed");
+
+       /* extentLogger.info("Click on continueBtn");
+        accountCreated.continueBtn.click();
+
+        extentLogger.info("Verifying that 'Logged in as username' is visible");
+        //String loggedInAsUsername = login.loggedInAsUsername.getText();
+        //Assert.assertEquals(loggedInAsUsername,"Logged in as Saliha");
+        //boolean inAsUsernameDisplayed = login.loggedInAsUsername.isDisplayed();
+        //Assert.assertTrue(inAsUsernameDisplayed);
+        BrowserUtils.verifyElementDisplayed(login.loggedInAsUsername);
+
+        extentLogger.info("Clicking 'Delete Account' button");
+        accountDelete.deleteAccountBn.click();
+
+        BrowserUtils.getScreenshot("testCase1");
+
+        extentLogger.info("Verify that 'ACCOUNT DELETED!' is visible");
+
+       /* try {
+            String textHeaderDelete = accountDelete.headerDeleteAccount.getText();
+            Assert.assertEquals(textHeaderDelete,"ACCOUNT DELETED!");
+        }catch(NoSuchElementException e) {
+            e.printStackTrace();
+            Assert.fail("Element not found: " );
+
+
+        }*/
+
+
+        extentLogger.info("clicking 'Continue' button");
+        BrowserUtils.verifyElementDisplayed(accountDelete.continueBtn);
+        accountDelete.continueBtn.click();
+
+        extentLogger.pass("Passed");
 
 
 
 
+    }
 
+    @Test
+    public void testLogin() {
 
+        LoginandSignUpPage loginandSignUpPage=new LoginandSignUpPage();
+        extentLogger = report.createTest("Verify that login is succesful");
+        extentLogger.info("login");
+        loginandSignUpPage.login("zehr@gmail.com","12345");
+        //String actual =loginandSignUpPage.logoutLinkText.getText();
 
-
-
-
-
-
-
+        //Assert.assertEquals(actual,"Logout");
+        BrowserUtils.verifyElementDisplayed(loginandSignUpPage.logoutLinkText);
+        extentLogger.pass("passed");
 
     }
 }

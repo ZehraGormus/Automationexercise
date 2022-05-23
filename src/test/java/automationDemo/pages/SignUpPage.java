@@ -59,10 +59,10 @@ public class SignUpPage extends BasePage{
                 fillDetails.get(2).sendKeys(ConfigurationReader.get("password"));
                 break;
             case "First Name" :
-                fillDetails.get(3).sendKeys("Karya");
+                fillDetails.get(3).sendKeys("Saliha");
                 break;
             case "Last name" :
-                fillDetails.get(4).sendKeys("Ada");
+                fillDetails.get(4).sendKeys("Mada");
                 break;
             case "Company" :
                 fillDetails.get(5).sendKeys("Microsoft");
@@ -104,7 +104,7 @@ public class SignUpPage extends BasePage{
         } else if (element.equals(years)) {
             select.selectByVisibleText("2001");
         }else{
-            System.out.println("Datum is falsch");
+            System.out.println("Datum is false");
         }
     }
 
